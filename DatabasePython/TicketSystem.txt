@@ -1,0 +1,234 @@
+---------------------------------------------------------------------------
+--
+-- Tables for database
+--
+
+--
+-- Creating schema for database tables
+--
+CREATE SCHEMA ticketsystem
+
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE Staff
+(
+	StaffID		INTEGER NOT NULL PRIMARY KEY,
+	Name			VARCHAR(40) NOT NULL
+)
+
+--
+-- Dumping data for Table 'staff'
+--
+
+INSERT INTO Staff (StaffID, Name) VALUES
+('2033', 'JANICE'),
+('2034', 'THOMAS'),
+('2035', 'CLARENCE'),
+('2036', 'JAQUELINE'),
+('2037', 'ELEANOR'),
+('3045', 'KELLY'),
+('2039', 'TERENCE'),
+('2040', 'SULLIVAN'),
+('2043', 'CLARE'),
+('3046', 'ZACHARY'),
+('3047', 'LOUISE'),
+('3048', 'RUBY');
+
+--
+-- Creating Trigger for Staff
+--
+
+-- If update has no change it activates the built in trigger
+CREATE TRIGGER no_update
+BEFORE UPDATE ON Staff
+FOR EACH ROW EXECUTE PROCEDURE suppress_redundant_updates_trigger();
+
+---------------------------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+CREATE TABLE Product
+(
+	ProductID		INTEGER(11) NOT NULL UNIQUE PRIMARY KEY,
+	Name			VARCHAR(40) NOT NULL
+)
+
+--
+-- Dumping data for table 'product'
+--
+
+INSERT INTO Product (ProductID, Name) VALUES
+(2, 'Holo3'),
+(3, 'Fly12'),
+(4, 'Zoom2'),
+(5, 'Holo2'),
+(6, 'JumpX'),
+(7, 'Fly10s'),
+(8, 'Swoop3s'),
+(9, 'Crash6'),
+(10, 'Crash8'),
+(11, 'Crash14s'),
+(12, 'Elongate'),
+(13, 'Celestials')
+
+--
+-- Creating Trigger for Staff
+--
+
+-- If update has no change it activates the built in trigger
+CREATE TRIGGER no_update
+BEFORE UPDATE ON Product
+FOR EACH ROW EXECUTE PROCEDURE suppress_redundant_updates_trigger();
+
+---------------------------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+CREATE TABLE Customer
+(
+	CustomerID		INTEGER NOT NULL PRIMARY KEY UNIQUE,
+	Name			VARCHAR(40) NOT NULL,
+	Email			VARCHAR(40) NOT NULL
+)
+
+--
+-- Dumping Data for table 'customer'
+--
+
+INSERT INTO customer (CustomerID, Name, Email) VALUES
+(20, 'Jackson', 'jackson@mail.com'),
+(21, 'Hannah', 'hannah@mail.com'),
+(22, 'Olive', 'olive@mail.com'),
+(23, 'Lionel', 'lionel@mail.com'),
+(24, 'John', 'john@mail.com'),
+(25, 'Crissy', 'crissy@mail.com'),
+(26, 'Jason', 'Jason@mail.com'),
+(27, 'Kimberly', 'kim@mail.com'),
+(28, 'Tim', 'Tim@mail.com'),
+(29, 'Wallace', 'wallace@mail.com'),
+(30, 'Timothy', 'timothy@mail.com')
+
+--
+-- Functions for trigger
+--
+
+ IF
+
+
+
+--
+-- Creating Trigger for Customer
+--
+
+-- If update has no change it activates the built in trigger
+CREATE TRIGGER no_update
+BEFORE UPDATE ON Customer
+FOR EACH ROW EXECUTE PROCEDURE suppress_redundant_updates_trigger();
+---------------------------------------------------------------------------
+
+--
+-- Table structure for table `ticket`
+--
+CREATE TABLE Ticket
+(
+	TicketID		INTEGER NOT NULL UNIQUE PRIMARY KEY,
+	Problem		VARCHAR(225) NOT NULL,
+	Status		VARCHAR(20) NOT NULL DEFAULT 'Open',
+	Priority		INTEGER NOT NULL,
+	LoggedTime		TIMESTAMP NOT NULL CONSTRAINT Logged_check CHECK(LoggedTime < CURRENT_TIMESTAMP),
+	CustomerID		INTEGER NOT NULL ,
+	ProductID		INTEGER NOT NULL,
+)
+
+--
+-- Dumping Data for table 'ticket'
+--
+
+INSERT INTO Ticket (TicketID, Problem, Status, Priority, LoggedTime, CustomerID, ProductID) VALUES
+(1, 'I am having difficulties purchasing the Fly12.', 'Closed', 2, '2009-12-09 12:03', 23, 3),
+(2, 'The website is failing to complete my transaction', 'Closed', 3, '2011-07-01 14:32', 27, 2),
+(3, 'I have not yet received my product', 'Closed', 1, '2011-07-05 16:05', 20, 5),
+(4, 'The website would not load', 'Closed', 3, '2012-04-23 11:09', 23, 5),
+(5, 'I have been trying to contact your service but no one has replied', 'Closed', 2, '2013-04-20 09:03', 30, 13),
+(6, 'Buy button would not work!', 'Closed', 3, '2013-11-11 12:13', 29, 10),
+(7, 'I am having trouble purchasing an item', 'Open', 2, '2016-03-22 22:02', 30, 11),
+(8, 'Server Error', 'Open', 3, '2016-04-24 19:05', 23, 4),
+(9, 'Server Error', 'Open', 3, '2016-04-26 11:02', 23, 2),
+(10, 'Server Timeout', 'Open', 2, '2016-04-27 10:05', 20, 9),
+(11, 'Server Timeout', 'Open', 1, '2016-04-28 19:05', 23, 4),
+(12, 'Server Timeout', 'Open', 2, '2017-07-12 12:25', 26, 7),
+(13, 'Server Timeout', 'Open', 3, '2017-07-29 16:25', 30, 3)
+
+--
+-- Creating Trigger for ticket
+--
+
+-- If update has no change it activates the built in trigger
+CREATE TRIGGER no_update
+BEFORE UPDATE ON ticket
+FOR EACH ROW EXECUTE PROCEDURE suppress_redundant_updates_trigger();
+
+---------------------------------------------------------------------------
+
+--
+-- Table structure for table `ticketupdate`
+--
+CREATE TABLE TicketUpdate
+(
+	TicketUpdateID	INTEGER NOT NULL UNIQUE PRIMARY KEY,
+	Message		VARCHAR(1000) NOT NULL,
+	UpdateTime		TIMESTAMP NOT NULL CONSTRAINT Time_Check CHECK(UpdateTime < CURRENT_TIMESTAMP),
+	TicketID		INTEGER NOT NULL UNIQUE,
+	StaffID	INTEGER NULL
+)
+
+--
+-- Dumping data for table 'ticketupdate'
+--
+
+INSERT INTO TicketUpdate (TicketUpdateID, Message, UpdateTime, TicketID, StaffID) VALUES
+(01, 'FLy12 Purchase Problem Resolved', '2009-12-09 13:00', 1, 2034),
+(02, 'Website Transaction problem resolved', '2011-07-01 15:00', 2, 2035),
+(03, 'Unreceived product problem resolved', '2011-07-05 17:12', 3, 2037),
+(04, 'Website loading problem', '2012-04-23 12:30', 4, 2035),
+(05, 'Helpline contact problem resolved', '2013-04-20 12:00', 5, 2035),
+(06, 'Buy button function resolved', '2013-11-11 12:20', 6, 2033),
+(07, 'We are currently working on resolving the problem', '2016-03-22 00:06', 7, 3045),
+(08, 'We are currently working on resolving the problem', '2016-04-24 15:00', 8, 2035),
+(09, 'We are currently working on resolving the problem', '2016-04-26 12:09', 9, 3046),
+(010, 'We are currently working on resolving the problem', '2016-07-27 11:20', 10, 3045),
+(011, 'We are currently working on resolving the problem', '2016-07-28 21:00', 11, 2035),
+(012, 'We are currently working on resolving the problem', '2017-07-12 14:30', 12, 2037),
+(013, 'We are currently working on resolving the problem', '2017-07-29 17:12', 13, 2035)
+
+--
+-- Creating Trigger for ticktupdate
+--
+
+-- If update has no change it activates the built in trigger
+CREATE TRIGGER no_update
+BEFORE UPDATE ON TicketUpdate
+FOR EACH ROW EXECUTE PROCEDURE suppress_redundant_updates_trigger();
+---------------------------------------------------------------------------
+
+--
+-- Trigger for updating timestamps
+--
+
+CREATE OR REPLACE FUNCTION update_mod_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.mod = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+
+CREATE TRIGGER update_ticket_modtime
+BEFORE UPDATE ON TicketUpdate
+FOR EACH ROW EXECUTE PROCEDURE update_mod_column()

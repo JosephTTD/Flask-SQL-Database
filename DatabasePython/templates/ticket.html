@@ -1,0 +1,24 @@
+<body>
+
+  <h1>Support Ticket</h1>
+
+  <table border = 1>
+  <tr>
+  <th>TicketID</th> <th>Problem</th> <th>Status </th> <th> Priority</th> <th>LoggedTime</th> <th>CustomerID</th> <th>ProductID</th> 
+  </tr>
+  {% for row in rows %}
+  <tr>
+  {% for item in row%}
+  <td>
+  {{item}}
+  </td>
+  {% endfor %}
+  </tr>
+  {% endfor %}
+  </table>
+
+<form action = "/" method = "GET">
+  <input type = "submit" value = "Take me home">
+</form>
+
+</body>

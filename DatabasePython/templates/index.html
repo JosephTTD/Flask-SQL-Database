@@ -1,0 +1,128 @@
+<!Doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wweb prototype of ticket system">
+<title>Ticket System Web app</title>
+
+<!-- Latest compiled and minified CSS -->
+<!-- Custom CSS -->
+<link rel="stylesheet" href="static/css/style.css" type="text/css" media="all" />
+
+</head>
+
+<body>
+
+
+<h1>ticket management system</h1>
+
+<h3>Add a new Customer</h3>
+
+<form action="addCustomer" method = "post">
+CustomerID <input type="text" name="CustomerID"> <br>
+Name<input type="text" name= "Name"><br>
+Email <input type="text" name="Email"> <br>
+<input type="submit" value="Add Customer"> <br>
+</form>
+
+{{msg}}<br>
+{{err}}
+
+<h3>Add a new Ticket</h3>
+<form action = "addTicket" method = "post">
+  TicketID <input type="text" name = "TicketID"><br>
+  Problem <input type = "text" name = "Problem"><br>
+  Status <input type = "text" name = "Status"><br>
+  Priority <input type = "text" name = "Priority"><br>
+  LoggedTime <input type="text" name = "LoggedTime"><br>
+  CustomerID <input type = "text" name = "CustomerID"><br>
+  ProductID <input type = "text" name = "ProductID"><br>
+  <input type="submit" value = "Create new Ticket">
+</form>
+
+{{msg1}}<br>
+{{err1}}
+
+<h4>Display the Ticket</h4>
+<form action="displayTicket" method = "GET">
+  <input type="submit" value = "Display Ticket">
+</form>
+
+<!-- <form action = "addTicket" method = "post">
+  TicketUpdateID <input type="text" name = "TicketID"><br>
+  PMessage <input type = "text" name = "Problem"><br>
+  UpdateTime <input type = "text" name = "Priority"><br>
+  TicketID <input type = "text" name = "CustomerID"><br>
+  StaffID <input type = "text" name = "ProductID"><br>
+  <input type="submit" value = "Create new Ticket">
+</form> -->
+
+{{msg2}}<br>
+{{err2}}
+
+<h3>Update Support Ticket</h3>
+
+<form action="updateTicket" method = "post">
+TicketUpdateID <input type="text" name = "TicketUpdateID"><br>
+Message <input type = "text" name = "Message"><br>
+UpdateTime <input type = "text" name = "UpdateTime"><br>
+TicketID <input type = "text" name = "TicketID"><br>
+StaffID <input type = "text" name ="StaffID"><br>
+<input type="submit" value="Update Ticket"> <br>
+</form>
+
+{{msg3}}<br>
+{{err3}}
+
+<h3>Check outstanding tickets</h3>
+<form action = "listOpen" method ="get">
+  <input type="submit" value="Proceed">
+</form>
+
+{{msg4}}<br>
+{{err4}}
+
+<h3>Update Support Ticket given CustomerID</h3>
+
+<form action="changeStatus" method = "post">
+CustomerID <input type="text" name="CustomerID"> <br>
+Status<input type="text" name= "Status"><br>
+<input type="submit" value="Update Ticket"> <br>
+</form>
+
+{{msg5}}<br>
+{{err5}}
+
+<h3>Original Problem of Ticket</h3>
+
+<form action="orgProblem" method = "get">
+CustomerID<input type="text" name="TicketID">
+<input type="submit" value="Proceed"> <br>
+</form>
+
+{{msg6}}<br>
+{{err6}}
+
+<h3>Show a report of the status of each closed support ticket</h3>
+<form action="listClose" method = "get">
+<input type="submit" value="Proceed"> <br>
+</form>
+
+{{msg7}}<br>
+{{err7}}
+
+<h3>Delete Customer</h3>
+
+<form action="deleteCustomer" method = "post">
+  CustomerID <input type="text" name = "CustomerID">
+  <input type="submit" value = "Delete Customer">
+</form>
+
+{{msg8}}<br>
+{{err8}}
+
+
+
+</body>
+</html>

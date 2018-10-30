@@ -1,0 +1,100 @@
+
+--
+-- No.1
+--
+
+-- Given a CustomerID, name and email, create a new Customer record.
+
+INSERT INTO Customer(CustomerID, Name, Email) VALUES
+(31, 'Jensen', 'jensen@mail.com')
+
+---------------------------------------------------------
+--
+-- No.2
+--
+
+-- Create a new support ticket for a customer with respect to a given product. The application should
+-- display details of the ticket as confirmation.
+
+INSERT INTO Ticket(TicketID, Problem, Status, Priority, LoggedTime, CustomerID, ProductID) VALUES
+(44, 'I am having problems purchasing one of your products', 'Open', 2, '2017-12-25 11:00', 22, 5)
+
+---------------------------------------------------------
+
+--
+-- No.3
+--
+
+-- Add an update to the support ticket from a given staff member
+
+INSERT INTO TicketUpdate(TicketUpdateID, Message, UpdateTime, TicketID, StaffID) VALUES
+(014, 'Your problem has been resolved', '2017-08-25 12 12:00',  14, 3045)
+
+----------------------------------------------------------
+
+--
+-- No.4
+--
+
+List all outstanding (i.e. open) support tickets along with the time of the last update (if applicable).
+
+SELECT distinct ticket.ticketid, ticket.status, ticket.loggedtime FROM ticket
+RIGHT JOIN TicketUpdate ON Ticket.TicketID=TicketUpdate.TicketID
+WHERE TICKET.status = 'Open'
+
+-----------------------------------------------------------
+
+--
+-- No.5
+--
+
+-- Given a ticketID, set the status of a support ticket to closed.
+
+UPDATE Ticket
+SET Status = 'Closed'
+WHERE TicketID = 14;
+
+------------------------------------------------------------
+
+--
+-- No.6
+--
+
+-- Given a ticketID, list the original problem as the question along with all updates in chronological
+-- order. For each line, include the time of the message and the name of the person who authored the
+-- message.
+
+SELECT Distinct Ticket.TicketID, Ticket.LoggedTime, TicketUpdate.UpdateTime , Customer.Name FROM Ticket, TicketUpdate, Customer
+WHERE TicketUpdate.TicketUpdateID = Ticket.TicketID AND Ticket.CustomerID = Customer.CustomerID
+AND  Ticket.TicketID = 12 ORDER BY TicketUpdate.UpdateTime ASC
+
+
+------------------------------------------------------------
+
+--
+-- No.7
+--
+
+-- Produce a report showing the status of each closed support ticket. For each ticket you should
+-- include the number of updates, the time that elapsed between the question being logged and the first
+-- update, and the time between the question being logged and the final update. You may assume that
+-- all closed tickets have at least one update from a member of staff.
+
+SELECT DISTINCT Ticket.Status, Ticket.Problem, TicketUpdate.UpdateTime, Ticket.LoggedTime, TicketUpdate.UpdateTime,
+    COUNT(TicketUpdate.TicketUpdateID) AS Staff_Updates,
+    MAX(TicketUpdate.UpdateTime::timestamp) - Ticket.LoggedTime::timestamp AS Difference
+    FROM Ticket, TicketUpdate
+    WHERE Ticket.Status = 'Closed' AND Ticket.TicketID = TicketUpdate.TicketID
+    GROUP BY Problem, UpdateTime, LoggedTime, Status
+
+
+------------------------------------------------------------
+
+--
+-- No. 8
+--
+
+-- Given a Customer ID, permanantly remove the customer’s details. The removal of a customer
+-- should not be possible while the customer is associated with any tickets.
+
+DELETE FROM Customer WHERE CustomerID = 15
